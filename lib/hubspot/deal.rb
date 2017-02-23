@@ -13,6 +13,7 @@ module Hubspot
     UPDATE_DEAL_PATH = '/deals/v1/deal/:deal_id'
     ASSOCIATE_DEAL_PATH = '/deals/v1/deal/:deal_id/associations/:OBJECTTYPE?id=:objectId'
     ASSOCIATED_DEAL_PATH = "/deals/v1/deal/associated/:objectType/:objectId"
+    ALL_DEALS_PATH = "/deals/v1/deal/paged"
 
     attr_reader :properties
     attr_reader :portal_id
@@ -53,6 +54,13 @@ module Hubspot
         response = Hubspot::Connection.get_json(DEAL_PATH, { deal_id: deal_id })
         new(response)
       end
+
+      # Get all of the deals in a portal.  Returns a paginated set of deals.
+      # {http://developers.hubspot.com/docs/methods/deals/get-all-deals}
+      def all(opts = {})
+        response = Hubspot::Connection.get_json(ALL_DEALS_PATH, opts)
+        response['results'].map { |d| new(d) }
+      end 
 
       # Find recent updated deals.
       # {http://developers.hubspot.com/docs/methods/deals/get_deals_modified}
