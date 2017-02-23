@@ -58,7 +58,7 @@ module Hubspot
       # Get all of the deals in a portal.  Returns a paginated set of deals.
       # {http://developers.hubspot.com/docs/methods/deals/get-all-deals}
       def all(opts = {})
-        resonse = Hubspot::Connection.get_json(ALL_DEAL_PATH, opts)
+        resonse = Hubspot::Connection.get_json(ALL_DEALS_PATH, opts)
         response['results'].map { |d| new(d) }
       end 
 
